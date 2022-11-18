@@ -1,0 +1,9 @@
+[Unit]
+Description=Map Builder
+
+[Service]
+ExecStart=/opt/mapbuilder
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

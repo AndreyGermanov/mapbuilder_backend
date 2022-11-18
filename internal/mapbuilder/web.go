@@ -1,10 +1,11 @@
 package mapbuilder
 
 import (
+	"bytes"
+	"compress/zlib"
 	"encoding/json"
 	"io"
 	"net/http"
-	"strings"
 )
 
 type MapRequest struct {
@@ -76,6 +77,12 @@ func getMap(r *http.Request) ([]byte, error) {
 	svg := mapShape.GetSVG(TransformParams{scaleWidth: request.Width, scaleHeight: request.Height},
 		CountryParams{styles: map[string]string{"stroke": "black", "fill": "none"}},
 	)
-	svg = strings.Replace(svg, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "", -1)
-	return []byte(svg), nil
+	var buf bytes.Buffer
+	w := zlib.NewWriter(&buf)
+	_, err = w.Write([]byte(svg))
+	w.Close()
+	if err != nil {
+		println(err.Error())
+	}
+	return buf.Bytes(), nil
 }
