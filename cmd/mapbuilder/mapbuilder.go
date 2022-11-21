@@ -1,7 +1,13 @@
 package main
 
-import "github.com/AndreyGermanov/mapbuilder_backend/internal/mapbuilder"
+import (
+	"flag"
+	"github.com/AndreyGermanov/mapbuilder_backend/internal/mapbuilder"
+)
+
+var p = flag.Int("p", 6001, "Port number")
 
 func main() {
-	mapbuilder.RunWebServer()
+	flag.Parse()
+	mapbuilder.RunWebServer(*p)
 }

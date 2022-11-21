@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"compress/zlib"
 	"encoding/json"
+	"fmt"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -15,11 +17,14 @@ type MapRequest struct {
 	Countries []string `json:"countries"`
 }
 
-func RunWebServer() {
+func RunWebServer(port int) {
 	LoadCountriesDB()
-	server := http.Server{Addr: "0.0.0.0:6001", Handler: http.HandlerFunc(handle)}
+	server := http.Server{Addr: fmt.Sprintf("0.0.0.0:%d", port), Handler: http.HandlerFunc(handle)}
 
-	server.ListenAndServe()
+	err := server.ListenAndServe()
+	if err != nil {
+		log.Fatalf("Could not run the MapBuilder web service: %s", err.Error())
+	}
 }
 
 func handle(w http.ResponseWriter, r *http.Request) {
