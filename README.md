@@ -25,7 +25,7 @@ It will run a web server that will listen for SVG generation requests on specifi
 
 # Use
 
-MapBuilder web service exposes the following endpoint:
+MapBuilder web service exposes the following endpoints:
 
 `POST /map`
 
@@ -43,8 +43,11 @@ That requires POST body in JSON format:
 
 `countries` argument must include only country codes that exist in `geodata` folder under specified scale.
 
-If request formed correctly, web service will respond with SVG file body, compressed by gzip.
+If request formed correctly, web service will respond with SVG file body, compressed by zlib.
 
+`GET /metadata`
+
+Helper endpoint that returns all scales and country ISO codes as a single JSON object. It can be used to find which scales and ISO codes available.
 # Example
 
 The client application example, that uses this service available here:
