@@ -1,2 +1,0 @@
-systemctl enable mapbuilder.service
-systemctl start mapbuilder.service
