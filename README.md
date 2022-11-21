@@ -5,7 +5,9 @@ The web service to generate SVG vector shapes of countries from Natural Earth da
 
 To build the application, you need to have Go installed: https://go.dev/dl/ and run the following command:
 
-go build cmd/mapbuilder/mapbuilder
+```
+go build cmd/mapbuilder/mapbuilder.go
+```
 
 It will create the `mapbuilder` executable binary file.
 
