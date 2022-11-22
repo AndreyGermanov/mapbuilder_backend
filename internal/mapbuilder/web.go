@@ -84,8 +84,11 @@ func getMap(r *http.Request) ([]byte, error) {
 	)
 	var buf bytes.Buffer
 	w := zlib.NewWriter(&buf)
-	_, err = w.Write([]byte(svg))
-	w.Close()
+	_, err = io.WriteString(w, svg)
+	if err != nil {
+		println(err.Error())
+	}
+	err = w.Close()
 	if err != nil {
 		println(err.Error())
 	}
