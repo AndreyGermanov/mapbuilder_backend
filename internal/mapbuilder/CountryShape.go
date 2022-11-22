@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 )
@@ -16,9 +17,6 @@ type CountryShape struct {
 	scale     string
 	polygons  []Polygon
 }
-
-var polygonsCount = 0
-var pointsCount = 0
 
 type CountryParams struct {
 	styles map[string]string
@@ -33,7 +31,7 @@ func CreateCountryShape() *CountryShape {
 }
 
 func RequestCountry(isoCode string, scale string) ([]byte, error) {
-	return os.ReadFile(basePath + "/" + scale + "/" + isoCode + ".geojson")
+	return os.ReadFile(path.Join(basePath, scale, isoCode+".geojson"))
 }
 
 func (shape *CountryShape) loadFromJSON(isoCode string, scale string) error {
@@ -95,12 +93,10 @@ func (shape *CountryShape) loadPolygonFromJSON(polygonIf []interface{}) {
 			shape.bottom = y
 		}
 		polygon = append(polygon, []float64{x, y})
-		pointsCount++
 	}
 	if len(polygon) > 0 {
 		shape.polygons = append(shape.polygons, polygon)
 	}
-	polygonsCount++
 }
 
 func (shape *CountryShape) GetSVG(params TransformParams, countryParams CountryParams) string {
